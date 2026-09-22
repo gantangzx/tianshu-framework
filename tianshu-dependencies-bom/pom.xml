@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.gantang</groupId>
+    <artifactId>tianshu-dependencies-bom</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>tianshu-dependencies-bom</name>
+    <description>
+        Tianshu BOM. Importing this BOM brings the Spring Boot BOM, all Tianshu internal module
+        coordinates and the third-party versions used by the framework. This is the single source
+        of truth for dependency versions.
+    </description>
+
+    <properties>
+        <spring-boot.version>4.2.0-M1</spring-boot.version>
+
+        <!-- Third party versions not (fully) managed by Spring Boot BOM -->
+        <lombok.version>1.18.42</lombok.version>
+        <hutool.version>5.8.32</hutool.version>
+        <zxing.version>3.5.3</zxing.version>
+        <nimbus-jose-jwt.version>9.40</nimbus-jose-jwt.version>
+        <mybatis-plus.version>3.5.9</mybatis-plus.version>
+        <ip2region.version>2.7.0</ip2region.version>
+        <xxl-job.version>2.4.1</xxl-job.version>
+        <springdoc.version>3.1.1</springdoc.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- ===== Tianshu 内部模块，按分层聚合 ===== -->
+
+            <!-- 基础层 -->
+            <dependency>
+                <groupId>com.gantang</groupId>
+                <artifactId>tianshu-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.gantang</groupId>
+                <artifactId>tianshu-utils</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.gantang</groupId>
+                <artifactId>tianshu-user-context</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- Web 与数据层 -->
+            <dependency>
+                <groupId>com.gantang</groupId>
+                <artifactId>tianshu-web</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.gantang</groupId>
+                <artifactId>tianshu-security</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.gantang</groupId>
+                <artifactId>tianshu-mybatis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.gantang</groupId>
+                <artifactId>tianshu-openapi</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.gantang</groupId>
+                <artifactId>tianshu-xxl-job</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.gantang</groupId>
+                <artifactId>tianshu-elasticsearch</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- 独立模块 -->
+            <dependency>
+                <groupId>com.gantang</groupId>
+                <artifactId>tianshu-exchange</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- Spring Cloud 层 -->
+            <dependency>
+                <groupId>com.gantang</groupId>
+                <artifactId>tianshu-registry</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.gantang</groupId>
+                <artifactId>tianshu-discovery</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.gantang</groupId>
+                <artifactId>tianshu-gateway</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.gantang</groupId>
+                <artifactId>tianshu-gray</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.gantang</groupId>
+                <artifactId>tianshu-feign</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- Third party -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-core</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-json</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.zxing</groupId>
+                <artifactId>core</artifactId>
+                <version>${zxing.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.zxing</groupId>
+                <artifactId>javase</artifactId>
+                <version>${zxing.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.nimbusds</groupId>
+                <artifactId>nimbus-jose-jwt</artifactId>
+                <version>${nimbus-jose-jwt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-jsqlparser</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.lionsoul</groupId>
+                <artifactId>ip2region</artifactId>
+                <version>${ip2region.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.xuxueli</groupId>
+                <artifactId>xxl-job-core</artifactId>
+                <version>${xxl-job.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>

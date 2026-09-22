@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Tianshu Gateway - API Docs</title>
+    <link rel="stylesheet" href="/webjars/swagger-ui/5.21.0/swagger-ui.css"/>
+</head>
+<body>
+<div id="swagger-ui"></div>
+<script src="/webjars/swagger-ui/5.21.0/swagger-ui-bundle.js" charset="UTF-8"></script>
+<script>
+    window.onload = function () {
+        window.ui = SwaggerUIBundle({
+            url: '/v3/api-docs',
+            dom_id: '#swagger-ui',
+            deepLinking: true,
+            presets: [SwaggerUIBundle.presets.apis],
+            layout: 'BaseLayout'
+        });
+    };
+</script>
+</body>
+</html>

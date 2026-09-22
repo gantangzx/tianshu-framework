@@ -1,0 +1,16 @@
+# Eureka Server 开箱即用默认值（单机）。业务配置可覆盖。
+server:
+  port: 8761
+
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+  client:
+    # 单机注册中心默认不拉取注册表、不注册自己
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  server:
+    enable-self-preservation: false
