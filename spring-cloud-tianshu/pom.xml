@@ -16,6 +16,7 @@
     <modules>
         <module>tianshu-registry</module>
         <module>tianshu-discovery</module>
+        <module>tianshu-config</module>
         <module>tianshu-gateway</module>
         <module>tianshu-gray</module>
         <module>tianshu-feign</module>

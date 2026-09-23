@@ -28,6 +28,7 @@
         <ip2region.version>2.7.0</ip2region.version>
         <xxl-job.version>2.4.1</xxl-job.version>
         <springdoc.version>3.1.1</springdoc.version>
+        <spring-cloud-alibaba.version>2025.1.0.0</spring-cloud-alibaba.version>
     </properties>
 
     <dependencyManagement>
@@ -107,6 +108,11 @@
             <dependency>
                 <groupId>com.gantang</groupId>
                 <artifactId>tianshu-discovery</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.gantang</groupId>
+                <artifactId>tianshu-config</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -191,6 +197,23 @@
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
                 <version>${springdoc.version}</version>
+            </dependency>
+
+            <!-- Spring Cloud Alibaba: Nacos 配置中心 -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-alibaba-nacos-config</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-commons</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

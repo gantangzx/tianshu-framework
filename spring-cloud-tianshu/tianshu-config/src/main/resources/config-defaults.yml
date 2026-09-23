@@ -1,0 +1,16 @@
+# Nacos 配置中心开箱即用默认值。业务配置可覆盖。
+# 通过 Config Data 机制接入：默认拉取应用名对应的 dataId，缺失不阻断启动。
+spring:
+  config:
+    import:
+      - "optional:nacos:${spring.application.name}.yml"
+  cloud:
+    nacos:
+      config:
+        enabled: true
+        # 地址优先取通用的 spring.cloud.nacos.server-addr，缺省回退到本机
+        server-addr: ${spring.cloud.nacos.server-addr:127.0.0.1:8848}
+        group: DEFAULT_GROUP
+        file-extension: yml
+        # 动态刷新默认开启，配合 @RefreshScope / @ConfigurationProperties 生效
+        refresh-enabled: true
