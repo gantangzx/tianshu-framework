@@ -329,24 +329,30 @@ mvn -B -pl tianshu-diagnosis-server -am clean install
 
 任务，包 `com.gantang.tianshu.diagnosis.server`：
 1. `IngestService.receive(ErrorEvent)`：校验 schemaVersion → 二次脱敏（纵深）→ 去重聚合 → 存储。
-2. 存储两张表（Flyway 迁移）：
-   - `error_event_raw`：以 `msgId` 为主键/唯一键插入（同 ID 幂等覆盖或忽略）。
-   - `error_fingerprint_agg`：以 `fingerprint` 聚合，字段 count / firstSeen / lastSeen / trace 集合（上限）/ lastMessage / `seenMsgIds`（或独立去重子表）。
-     - 幂等 upsert（**多节点并发安全**）：计数与"msgId 是否见过"的判断必须在**单条原子语句**内完成——
-       PG 用 `INSERT ... ON CONFLICT DO UPDATE ... WHERE NOT (seen_msg_ids @> ARRAY[:msgId])`（或 `jsonb` 包含判断），
-       MySQL 用 `INSERT ... ON DUPLICATE KEY UPDATE count = count + IF(JSON_CONTAINS(seen, :msgId),0,1), seen=...` 之类的条件表达式，
-       或借助行锁/唯一约束的原子 upsert。**禁止"先 SELECT 判存再 UPDATE 写回"的两步写法**（服务多副本、同 msgId 并发重投时会翻倍）。
-       trace 集合去重与上限裁剪同样在该语句内完成。
-     - 若数据库不便在一行内维护大集合，改为独立 `agg_seen_msg(fingerprint,msgId)` 联合唯一子表，
-       先对该子表做 insert-ignore，再以其影响行数驱动 `count` 原子自增。
-3. 存储为接口 `DiagnosisRepository`，一期给 JPA 实现；ES 检索作为**可选**实现（缺 ES 不报错），避免重蹈强耦合。
-4. 异常处理：持久化异常对 MQ 入口上抛交 retry/DLQ；对 HTTP 入口返回 5xx 由采集端缓冲重试；参数类非法输入返回 4xx 且不重试。
+2. 持久化默认关闭、放入独立 **`persist` Maven profile**（默认构建保持纯 HTTP 轻量、无需 DB 即可启动）；
+   构建 `-Ppersist` 并激活同名 Spring profile `persist`。两张表：
+   - `error_seen_msg`：以 `msgId` 主键 + 唯一约束的幂等明细（fingerprint、seenAt）。
+   - `error_aggregate`：以 `fingerprint` 聚合，字段 occurrenceCount / firstSeenAt / lastSeenAt /
+     sampleTraceId / lastMessage / appName / env。
+     - **Boot 4.1 实测环境暂无 Flyway 自动配置件**（spring-boot 4.1.1 各 jar 内无 FlywayAutoConfiguration），
+       一期不引 Flyway，建表交 Hibernate `ddl-auto=update`（独立诊断库，可接受）。
+     - **幂等/并发安全（事务内）**：先 `existsById(msgId)` 覆盖同一持久化上下文/已提交的重投递；
+       再插入明细并 `saveAndFlush`，捕获 `DataIntegrityViolationException` 覆盖跨事务并发抢占；
+       判定为首次后，用 **悲观写锁（PESSIMISTIC_WRITE）** 取聚合行自增（或新建）。
+       不采用"无锁先 SELECT 再 UPDATE"的写法；同 msgId 重投计数不翻倍。
+     - 一期不建原始表、不维护 trace 集合（聚合 + 幂等明细已满足"按指纹聚合 + 准确计数"）；trace 集合留待二期。
+3. 存储为接口 `ErrorEventStore`：默认（未启用持久化）装配 no-op 实现，保证接收链路始终成立、服务可独立启动；
+   `persist` profile 提供 `JpaErrorEventStore`。ES 检索作为二期**可选**实现（缺 ES 不报错），避免重蹈强耦合。
+4. 异常处理：参数类非法输入抛 IllegalArgumentException，HTTP 入口映射 4xx 且不重试；
+   持久化异常对 MQ 入口上抛交 retry/DLQ、对 HTTP 入口映射 5xx 由采集端缓冲重试。
 
 单测：
-- 同 msgId 重投：原始仅一条、聚合 count 不翻倍；不同 msgId 同指纹 count 递增、trace 去重。
-- HTTP 与 MQ 两入口走同一收口，结果一致；存储缺 ES/异常时按约定降级或上抛。
+- 默认 profile：`IngestServiceTest`（4 个）验证收口、契约校验拒绝、二次脱敏。
+- `persist` profile：`JpaErrorEventStoreTest`（H2 PostgreSQL 模式，3 个）验证——
+  同 msgId 重投聚合 count 不翻倍；不同 msgId 同指纹 count 递增；不同指纹互不干扰。
+  该集成测试默认构建通过 compiler/surefire 排除，仅 `-Ppersist` 纳入。
 
-退出标准：接收幂等（重投/重启不重复、计数不翻倍）；可选 ES 缺失静默降级；两入口行为一致。
+退出标准：接收幂等（重投/重启不重复、计数不翻倍）；默认无需 DB 可启动；两入口行为一致。
 
 ---
 

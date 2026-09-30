@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.gantang</groupId>
+        <artifactId>spring-boot-tianshu</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>tianshu-diagnose-log</artifactId>
+    <name>Tianshu Diagnose Log Starter</name>
+    <description>
+        Zero-intrusion ERROR collector: a Logback appender captures ERROR events, builds a
+        structured ErrorEvent (+fingerprint, masking), hands it to a single worker thread and
+        publishes over MQ / HTTP / logging with automatic fallback. Transport and Spring pieces
+        are optional/provided so the module stays light on the business classpath.
+    </description>
+
+    <dependencies>
+        <!-- Shared JSON contract -->
+        <dependency>
+            <groupId>com.gantang</groupId>
+            <artifactId>tianshu-diagnose-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.gantang</groupId>
+            <artifactId>tianshu-common</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+
+        <!-- Jackson 3 (tools.jackson), aligned with Boot 4.2 / tianshu-mq.
+             Present in every Boot 4.2 web app at runtime. -->
+        <dependency>
+            <groupId>tools.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- MQ transport is optional: enabled only when StreamBridge + MqProducer exist. -->
+        <dependency>
+            <groupId>com.gantang</groupId>
+            <artifactId>tianshu-mq</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- Provided by the business application at runtime -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-stream</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- Test -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>

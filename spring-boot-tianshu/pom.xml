@@ -18,5 +18,6 @@
         <module>tianshu-elasticsearch</module>
         <module>tianshu-mq</module>
         <module>tianshu-diagnose-api</module>
+        <module>tianshu-diagnose-log</module>
     </modules>
 </project>

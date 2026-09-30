@@ -114,6 +114,13 @@
                 <version>${project.version}</version>
             </dependency>
 
+            <!-- 错误日志采集 starter -->
+            <dependency>
+                <groupId>com.gantang</groupId>
+                <artifactId>tianshu-diagnose-log</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <!-- 独立模块 -->
             <dependency>
                 <groupId>com.gantang</groupId>
