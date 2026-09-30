@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.gantang</groupId>
+        <artifactId>spring-boot-tianshu</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>tianshu-diagnose-api</artifactId>
+    <name>Tianshu Diagnose API</name>
+    <description>
+        Shared JSON contract between tianshu-diagnose-log (collector) and
+        tianshu-diagnosis-server (agent service). Intentionally dependency-free:
+        plain POJOs so both Jackson 2 and Jackson 3 can (de)serialize them.
+    </description>
+
+    <!-- Zero dependencies on purpose: no Spring / Logback / Jackson,
+         only plain getters/setters to stay portable across both sides. -->
+</project>

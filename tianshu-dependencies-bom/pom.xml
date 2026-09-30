@@ -28,6 +28,7 @@
         <ip2region.version>2.7.0</ip2region.version>
         <xxl-job.version>2.4.1</xxl-job.version>
         <springdoc.version>3.1.1</springdoc.version>
+        <spring-cloud.version>2025.1.0</spring-cloud.version>
         <spring-cloud-alibaba.version>2025.1.0.0</spring-cloud-alibaba.version>
     </properties>
 
@@ -37,6 +38,14 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -89,6 +98,19 @@
             <dependency>
                 <groupId>com.gantang</groupId>
                 <artifactId>tianshu-elasticsearch</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.gantang</groupId>
+                <artifactId>tianshu-mq</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- 错误诊断契约件（采集端 / 智能体服务共享） -->
+            <dependency>
+                <groupId>com.gantang</groupId>
+                <artifactId>tianshu-diagnose-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -197,6 +219,13 @@
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
                 <version>${springdoc.version}</version>
+            </dependency>
+
+            <!-- Spring Cloud Alibaba: RocketMQ Stream binder -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-starter-stream-rocketmq</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
             </dependency>
 
             <!-- Spring Cloud Alibaba: Nacos 配置中心 -->

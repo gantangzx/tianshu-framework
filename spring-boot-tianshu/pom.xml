@@ -16,5 +16,7 @@
     <modules>
         <module>tianshu-xxl-job</module>
         <module>tianshu-elasticsearch</module>
+        <module>tianshu-mq</module>
+        <module>tianshu-diagnose-api</module>
     </modules>
 </project>
