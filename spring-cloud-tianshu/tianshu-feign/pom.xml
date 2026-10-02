@@ -25,10 +25,16 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
-        <!-- 通过 Nacos 解析目标服务实例 -->
+        <!--
+          服务发现解耦：Feign 本身不绑定任何注册中心。
+          tianshu-nacos 设为 optional（不传递），仅在开发者显式需要 Nacos 时由使用方自行引入，
+          避免只想用声明式调用的用户被强制带入 nacos-client。
+          也可替换为其它 DiscoveryClient 实现（Eureka/Consul 等）。
+        -->
         <dependency>
             <groupId>com.gantang</groupId>
             <artifactId>tianshu-nacos</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>jakarta.servlet</groupId>

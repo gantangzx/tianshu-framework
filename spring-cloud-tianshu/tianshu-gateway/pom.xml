@@ -30,10 +30,16 @@
             <artifactId>swagger-ui</artifactId>
             <version>5.21.0</version>
         </dependency>
-        <!-- 通过 Nacos 解析 lb:// 目标实例（不再使用 Eureka） -->
+        <!--
+          服务发现解耦：Gateway 本身不绑定任何注册中心。
+          tianshu-nacos 设为 optional（不传递），需要 lb:// 服务路由时由使用方自行显式引入，
+          避免只想做反向代理/路径转发的用户被强制带入 nacos-client。
+          也可替换为其它 DiscoveryClient 实现。
+        -->
         <dependency>
             <groupId>com.gantang</groupId>
             <artifactId>tianshu-nacos</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 </project>
