@@ -20,6 +20,8 @@
         <module>tianshu-gateway</module>
         <module>tianshu-gray</module>
         <module>tianshu-feign</module>
+        <module>tianshu-nacos</module>
+        <module>tianshu-service</module>
     </modules>
 
     <properties>

@@ -3,6 +3,7 @@ package com.gantang.tianshu.gateway;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gantang.tianshu.gateway.doc.SwaggerAggregationController;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -28,6 +29,8 @@ public class GatewayAutoConfiguration {
     }
 
     @Bean
+    @ConditionalOnClass(ObjectMapper.class)
+    @ConditionalOnBean(ObjectMapper.class)
     @ConditionalOnProperty(prefix = GatewayProperties.PREFIX, name = "doc-enabled",
             havingValue = "true", matchIfMissing = true)
     public SwaggerAggregationController swaggerAggregationController(ReactiveDiscoveryClient discoveryClient,

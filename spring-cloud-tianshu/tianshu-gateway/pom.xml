@@ -30,9 +30,10 @@
             <artifactId>swagger-ui</artifactId>
             <version>5.21.0</version>
         </dependency>
+        <!-- 通过 Nacos 解析 lb:// 目标实例（不再使用 Eureka） -->
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <groupId>com.gantang</groupId>
+            <artifactId>tianshu-nacos</artifactId>
         </dependency>
     </dependencies>
 </project>

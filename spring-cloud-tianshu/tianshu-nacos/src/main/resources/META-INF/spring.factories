@@ -1,0 +1,2 @@
+# Boot 4.2：EnvironmentPostProcessor 已迁移至 org.springframework.boot 包
+org.springframework.boot.EnvironmentPostProcessor=com.gantang.tianshu.nacos.NacosEnvironmentPostProcessor

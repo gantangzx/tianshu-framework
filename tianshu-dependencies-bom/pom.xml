@@ -30,6 +30,8 @@
         <springdoc.version>3.1.1</springdoc.version>
         <spring-cloud.version>2025.1.0</spring-cloud.version>
         <spring-cloud-alibaba.version>2025.1.0.0</spring-cloud-alibaba.version>
+        <!-- Nacos 官方 Java SDK（不依赖 SCA starter，可连 Nacos 2.x 服务端） -->
+        <nacos-client.version>3.2.3</nacos-client.version>
     </properties>
 
     <dependencyManagement>
@@ -159,6 +161,16 @@
                 <artifactId>tianshu-feign</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.gantang</groupId>
+                <artifactId>tianshu-nacos</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.gantang</groupId>
+                <artifactId>tianshu-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <!-- Third party -->
             <dependency>
@@ -235,21 +247,11 @@
                 <version>${spring-cloud-alibaba.version}</version>
             </dependency>
 
-            <!-- Spring Cloud Alibaba: Nacos 配置中心 -->
+            <!-- Nacos 官方 Java SDK：注册发现（路线 2：不依赖未 GA 的 SCA starter） -->
             <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-                <version>${spring-cloud-alibaba.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-alibaba-nacos-config</artifactId>
-                <version>${spring-cloud-alibaba.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-alibaba-commons</artifactId>
-                <version>${spring-cloud-alibaba.version}</version>
+                <groupId>com.alibaba.nacos</groupId>
+                <artifactId>nacos-client</artifactId>
+                <version>${nacos-client.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

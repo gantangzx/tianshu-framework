@@ -10,32 +10,38 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>tianshu-config</artifactId>
+    <artifactId>tianshu-nacos</artifactId>
 
-    <name>tianshu-config</name>
-    <description>Nacos 配置中心客户端，自动接入、动态刷新，开箱即用</description>
+    <name>tianshu-nacos</name>
+    <description>Nacos 注册发现脚手架：基于官方 nacos-client 桥接 Spring Cloud Discovery，不依赖 SCA starter</description>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
         </dependency>
-        <!-- DisposableBean 生命周期（ConfigService 关闭） -->
+        <!-- 仅用 Spring Cloud Commons 的 DiscoveryClient/ServiceRegistry 抽象做桥接 -->
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-commons</artifactId>
         </dependency>
-        <!-- 动态刷新：发布 EnvironmentChangeEvent，由 spring-cloud-context 重绑 @ConfigurationProperties/@RefreshScope -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-context</artifactId>
         </dependency>
-        <!-- 仅用官方 nacos-client 的 ConfigService，不依赖 SCA starter -->
+        <!-- Nacos 官方 Java SDK（可连 Nacos 2.x 服务端） -->
         <dependency>
             <groupId>com.alibaba.nacos</groupId>
             <artifactId>nacos-client</artifactId>
         </dependency>
+        <!-- 响应式适配所需，运行时由引入方(Gateway/LoadBalancer)提供 -->
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-core</artifactId>
+            <optional>true</optional>
+        </dependency>
 
+        <!-- 配置元数据生成（optional，仅编译期） -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>

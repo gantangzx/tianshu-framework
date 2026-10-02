@@ -1,0 +1,12 @@
+# Nacos 注册发现开箱默认值（基于官方 nacos-client，不依赖 SCA starter）。业务配置可覆盖。
+# 地址可通过 tianshu.nacos.server-addr 或环境变量 NACOS_SERVER_ADDR 覆盖。
+tianshu:
+  nacos:
+    enabled: true
+    server-addr: ${NACOS_SERVER_ADDR:127.0.0.1:8848}
+    namespace: ${NACOS_NAMESPACE:}
+    group: DEFAULT_GROUP
+    cluster-name: DEFAULT
+    register-enabled: true
+    weight: 1.0
+    ephemeral: true

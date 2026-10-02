@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -13,12 +13,22 @@
     <artifactId>tianshu-feign</artifactId>
 
     <name>tianshu-feign</name>
-    <description>OpenFeign 增强：鉴权/链路/灰度请求头透传，开箱即用</description>
+    <description>OpenFeign 封装：内置负载均衡与 Nacos 服务发现，鉴权/链路/灰度请求头透传，开箱即用</description>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <!-- Feign 按服务名调用所需的客户端负载均衡 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
+        <!-- 通过 Nacos 解析目标服务实例 -->
+        <dependency>
+            <groupId>com.gantang</groupId>
+            <artifactId>tianshu-nacos</artifactId>
         </dependency>
         <dependency>
             <groupId>jakarta.servlet</groupId>
