@@ -16,6 +16,7 @@
         <module>tianshu-dependencies-bom</module>
         <module>tianshu-common</module>
         <module>tianshu-web</module>
+        <module>tianshu-webmvc</module>
         <module>tianshu-security</module>
         <module>tianshu-mybatis</module>
         <module>tianshu-openapi</module>

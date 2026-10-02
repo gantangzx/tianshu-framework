@@ -79,6 +79,11 @@
             </dependency>
             <dependency>
                 <groupId>com.gantang</groupId>
+                <artifactId>tianshu-webmvc</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.gantang</groupId>
                 <artifactId>tianshu-security</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -164,11 +169,6 @@
             <dependency>
                 <groupId>com.gantang</groupId>
                 <artifactId>tianshu-nacos</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.gantang</groupId>
-                <artifactId>tianshu-service</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

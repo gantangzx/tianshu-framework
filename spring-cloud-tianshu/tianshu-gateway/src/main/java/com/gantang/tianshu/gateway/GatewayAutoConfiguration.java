@@ -1,6 +1,6 @@
 package com.gantang.tianshu.gateway;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import com.gantang.tianshu.gateway.doc.SwaggerAggregationController;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;

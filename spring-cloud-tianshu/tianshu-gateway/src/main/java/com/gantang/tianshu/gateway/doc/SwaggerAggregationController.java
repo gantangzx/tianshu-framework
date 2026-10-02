@@ -1,7 +1,7 @@
 package com.gantang.tianshu.gateway.doc;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.node.ObjectNode;
 import com.gantang.tianshu.gateway.GatewayProperties;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.ReactiveDiscoveryClient;
@@ -112,7 +112,7 @@ public class SwaggerAggregationController {
             node.set("servers", objectMapper.createArrayNode().add(server));
             return node;
         } catch (Exception ex) {
-            return null;
+            return objectMapper.createObjectNode();
         }
     }
 
@@ -125,13 +125,13 @@ public class SwaggerAggregationController {
         root.set("servers", objectMapper.createArrayNode());
 
         ObjectNode paths = objectMapper.createObjectNode();
-        java.util.LinkedHashSet<com.fasterxml.jackson.databind.JsonNode> tags = new java.util.LinkedHashSet<>();
+        java.util.LinkedHashSet<tools.jackson.databind.JsonNode> tags = new java.util.LinkedHashSet<>();
         for (ObjectNode doc : docs) {
-            if (doc == null) {
+            if (doc == null || doc.isEmpty()) {
                 continue;
             }
             if (doc.has("paths")) {
-                doc.get("paths").fields().forEachRemaining(entry -> paths.set(entry.getKey(), entry.getValue()));
+                doc.get("paths").properties().forEach(entry -> paths.set(entry.getKey(), entry.getValue()));
             }
             if (doc.has("tags")) {
                 doc.get("tags").forEach(tags::add);

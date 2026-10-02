@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.gantang</groupId>
+        <artifactId>tianshu-framework</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>tianshu-webmvc</artifactId>
+
+    <name>tianshu-webmvc</name>
+    <description>Servlet Web 栈脚手架：内嵌 Tomcat + Spring MVC，并自动装配方法日志/验证码/IP 属地等 Web 增强</description>
+
+    <dependencies>
+        <!-- Servlet 容器（Tomcat）+ Spring MVC + 基础 Web 能力 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!-- Web 增强：LoggerAspect / 验证码 / IP 属地（其自动配置按 DispatcherServlet 条件激活） -->
+        <dependency>
+            <groupId>com.gantang</groupId>
+            <artifactId>tianshu-web</artifactId>
+        </dependency>
+    </dependencies>
+</project>
