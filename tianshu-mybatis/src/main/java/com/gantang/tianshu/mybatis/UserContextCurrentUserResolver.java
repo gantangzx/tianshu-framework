@@ -27,9 +27,7 @@ public class UserContextCurrentUserResolver implements CurrentUserResolver {
         try {
             Class<?> holderClass = Class.forName(HOLDER_CLASS);
             holderMethod = holderClass.getMethod("getCurrentUser");
-            if (holderMethod.getReturnType() != null) {
-                userIdMethod = holderMethod.getReturnType().getMethod("getUserId");
-            }
+            userIdMethod = holderMethod.getReturnType().getMethod("getUserId");
         } catch (ReflectiveOperationException | LinkageError ex) {
             log.debug("tianshu-user-context 不在类路径，审计用户字段将不自动填充");
         }
