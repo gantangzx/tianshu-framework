@@ -1,12 +1,13 @@
 package com.gantang.tianshu.security.servlet;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import com.gantang.tianshu.common.api.R;
 import com.gantang.tianshu.common.api.ResultCode;
 import com.gantang.tianshu.common.web.ServletWebSupport;
 import com.gantang.tianshu.security.SecurityProperties;
 import com.gantang.tianshu.security.TokenService;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -21,6 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * @author gantang
  */
 @EnableWebSecurity
+@Configuration(proxyBeanMethods = false)
 public class ServletSecurityConfig {
 
     @Bean

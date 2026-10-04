@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 /**
@@ -25,21 +26,22 @@ public class SecurityAutoConfiguration {
         return new TokenService(properties);
     }
 
+    /**
+     * Servlet 栈。通过 {@link Import} 导入 {@link ServletSecurityConfig}，
+     * 使其被当作完整配置类处理，内部 {@code SecurityFilterChain} 才会注册。
+     */
+    @Configuration(proxyBeanMethods = false)
     @ConditionalOnClass(name = "org.springframework.web.servlet.DispatcherServlet")
+    @Import(ServletSecurityConfig.class)
     static class ServletStack {
-
-        @org.springframework.context.annotation.Bean
-        public ServletSecurityConfig servletSecurityConfig() {
-            return new ServletSecurityConfig();
-        }
     }
 
+    /**
+     * Reactive 栈。同样通过 {@link Import} 导入 {@link ReactiveSecurityConfig}。
+     */
+    @Configuration(proxyBeanMethods = false)
     @ConditionalOnClass(name = "org.springframework.web.reactive.DispatcherHandler")
+    @Import(ReactiveSecurityConfig.class)
     static class ReactiveStack {
-
-        @org.springframework.context.annotation.Bean
-        public ReactiveSecurityConfig reactiveSecurityConfig() {
-            return new ReactiveSecurityConfig();
-        }
     }
 }

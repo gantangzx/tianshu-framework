@@ -28,9 +28,9 @@
             <groupId>com.nimbusds</groupId>
             <artifactId>nimbus-jose-jwt</artifactId>
         </dependency>
-        <!-- JSON 序列化 -->
+        <!-- JSON 序列化（Boot 4.2 默认 Jackson3） -->
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
+            <groupId>tools.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
         </dependency>
         <!-- 双栈判定 -->

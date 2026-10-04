@@ -1,11 +1,12 @@
 package com.gantang.tianshu.security.reactive;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import com.gantang.tianshu.common.api.R;
 import com.gantang.tianshu.common.api.ResultCode;
 import com.gantang.tianshu.security.SecurityProperties;
 import com.gantang.tianshu.security.TokenService;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
@@ -19,6 +20,7 @@ import reactor.core.publisher.Mono;
  * @author gantang
  */
 @EnableWebFluxSecurity
+@Configuration(proxyBeanMethods = false)
 public class ReactiveSecurityConfig {
 
     @Bean
