@@ -66,6 +66,11 @@ public class ErrorFingerprinter {
                 continue;
             }
             String trimmed = frame.trim();
+            // 仅认可真正的堆栈帧（含“(”定位）；跳过异常头行“类名: message”与
+            // “Caused by: ...”，它们描述异常层级而非代码落点。
+            if (!trimmed.contains("(") || trimmed.startsWith("Caused by:")) {
+                continue;
+            }
             boolean business = false;
             for (String pkg : businessPackages) {
                 if (pkg != null && frameStartsWith(trimmed, pkg)) {

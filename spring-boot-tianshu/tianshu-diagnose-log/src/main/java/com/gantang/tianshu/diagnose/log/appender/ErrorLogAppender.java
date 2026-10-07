@@ -106,12 +106,32 @@ public class ErrorLogAppender extends AppenderBase<ILoggingEvent> {
         var throwable = event.getThrowableProxy();
         if (throwable != null) {
             exceptionClass = throwable.getClassName();
-            StackTraceElementProxy[] proxyFrames = throwable.getStackTraceElementProxyArray();
-            if (proxyFrames != null) {
-                int limit = Math.min(stackTopN, proxyFrames.length);
-                for (int i = 0; i < limit; i++) {
-                    frames.add(String.valueOf(proxyFrames[i]));
+            // 遍历整条 Caused by 链：每个异常先输出“类名: message”头行，再输出其独有
+            // 堆栈帧（跳过与上层重复的 commonFrames）。诊断端据此还原因果层级，根因
+            // 优先定位最内层 cause，而非仅看被拍平的顶层帧。
+            java.util.Set<ch.qos.logback.classic.spi.IThrowableProxy> visited =
+                    java.util.Collections.newSetFromMap(
+                            new java.util.IdentityHashMap<>());
+            ch.qos.logback.classic.spi.IThrowableProxy current = throwable;
+            int depth = 0;
+            int remaining = stackTopN;
+            while (current != null && visited.add(current) && remaining > 0 && depth < 16) {
+                String prefix = depth == 0 ? "" : "Caused by: ";
+                String head = prefix + nullToEmpty(current.getClassName())
+                        + (current.getMessage() == null ? "" : ": " + current.getMessage());
+                frames.add(head);
+                StackTraceElementProxy[] proxyFrames = current.getStackTraceElementProxyArray();
+                int common = Math.max(0, current.getCommonFrames());
+                if (proxyFrames != null) {
+                    int unique = proxyFrames.length - common;
+                    int limit = Math.min(remaining, unique);
+                    for (int i = 0; i < limit; i++) {
+                        frames.add(String.valueOf(proxyFrames[i]));
+                        remaining--;
+                    }
                 }
+                current = current.getCause();
+                depth++;
             }
         }
 
@@ -124,6 +144,7 @@ public class ErrorLogAppender extends AppenderBase<ILoggingEvent> {
         String traceId = traceIdOf(event);
         String fingerprint = fingerprinter.fingerprint(
                 exceptionClass, maskedFrames, null, event.getLoggerName(), event.getFormattedMessage());
+
 
         ErrorEvent e = new ErrorEvent();
         e.setSchemaVersion(DiagnoseConstants.SCHEMA_VERSION);
@@ -194,6 +215,10 @@ public class ErrorLogAppender extends AppenderBase<ILoggingEvent> {
         } catch (Exception e) {
             return "";
         }
+    }
+
+    private static String nullToEmpty(String s) {
+        return s == null ? "" : s;
     }
 
     private static List<String> splitCsv(String csv) {
